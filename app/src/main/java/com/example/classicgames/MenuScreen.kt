@@ -4,25 +4,28 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.radioButton
+import androidx.compose.foundation.rememberRadioGroup
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.classicgames.ui.theme.ClassicGamesTheme
+import androidx.compose.ui.graphics painterResource
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.intPx
 
-class MainActivity : ComponentActivity() {
+class MenuActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             ClassicGamesTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MenuScreen(
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    MenuContent(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
@@ -30,9 +33,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MenuScreen(modifier: Modifier = Modifier) {
+fun MenuContent(modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.surface),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -60,7 +63,7 @@ fun MenuScreen(modifier: Modifier = Modifier) {
             RadioGroup(
                 value = 1,
                 onValueChange = { },
-                enabled = false
+                enabled = false // Placeholder, habilitar cuando haya nombre
             ) {
                 RadioButton(
                     value = 0,
@@ -91,13 +94,5 @@ fun MenuScreen(modifier: Modifier = Modifier) {
         ) {
             Text("Comenzar Partida")
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun MenuScreenPreview() {
-    ClassicGamesTheme {
-        MenuScreen()
     }
 }
