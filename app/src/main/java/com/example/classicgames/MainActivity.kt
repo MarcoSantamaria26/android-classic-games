@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,71 +24,6 @@ class MainActivity : ComponentActivity() {
                     )
                 }
             }
-        }
-    }
-}
-
-@Composable
-fun MenuScreen(modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // Título
-        Text(
-            text = "Classic Games",
-            style = MaterialTheme.typography.h4,
-            modifier = Modifier.padding(bottom = 32.dp)
-        )
-
-        // Nombre del jugador
-        OutlinedTextField(
-            value = "",
-            onValueChange = { },
-            label = { Text("Tu nombre") },
-            modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
-        )
-
-        // Modo de juego
-        Text("Modo de juego", style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(bottom = 8.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            RadioGroup(
-                value = 1,
-                onValueChange = { },
-                enabled = false
-            ) {
-                RadioButton(
-                    value = 0,
-                    text = "Vs. Máquina"
-                )
-                RadioButton(
-                    value = 1,
-                    text = "Vs. Otro jugador"
-                )
-            }
-        }
-
-        // Nivel de dificultad (solo vs máquina)
-        // ... agregar later
-
-        // Mejor de X juegos
-        OutlinedTextField(
-            value = "3",
-            onValueChange = { },
-            label = { Text("Mejor de") },
-            modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
-        )
-
-        // Botón comenzar
-        Button(
-            onClick = {},
-            modifier = Modifier.fillMaxWidth().padding(top = 24.dp)
-        ) {
-            Text("Comenzar Partida")
         }
     }
 }
