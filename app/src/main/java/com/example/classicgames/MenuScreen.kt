@@ -22,7 +22,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.focus.onFocusChanged
-import kotlinx.coroutines.delay
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -39,12 +40,16 @@ fun MenuScreen(modifier: Modifier = Modifier) {
     val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
 
+    val bringIntoViewRequester1 = remember { BringIntoViewRequester() }
+    val bringIntoViewRequester2 = remember { BringIntoViewRequester() }
+    val bringIntoViewRequesterGames = remember { BringIntoViewRequester() }
+
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface)
+            .imePadding() // <--- ANTES del scroll para que el scroll incluya el espacio del teclado
             .verticalScroll(scrollState)
-            .imePadding() // <--- ESTO EMPUJA EL CONTENIDO CUANDO SALE EL TECLADO
             .navigationBarsPadding() // <--- Evita que tape la barra de navegación del celu
             .padding(16.dp),
         verticalArrangement = Arrangement.Top,
@@ -69,7 +74,17 @@ fun MenuScreen(modifier: Modifier = Modifier) {
                 keyboardController?.hide()
                 coroutineScope.launch { scrollState.animateScrollTo(0) }
             }),
-            modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp)
+                .bringIntoViewRequester(bringIntoViewRequester1)
+                .onFocusChanged { focusState ->
+                    if (focusState.isFocused) {
+                        coroutineScope.launch {
+                            bringIntoViewRequester1.bringIntoView()
+                        }
+                    }
+                }
         )
 
         // --- SELECCIÓN DE JUEGO (3 Cuadrados) ---
@@ -154,11 +169,11 @@ fun MenuScreen(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp)
+                    .bringIntoViewRequester(bringIntoViewRequester2)
                     .onFocusChanged { focusState ->
                         if (focusState.isFocused) {
                             coroutineScope.launch {
-                                delay(150)
-                                scrollState.animateScrollTo(scrollState.maxValue)
+                                bringIntoViewRequester2.bringIntoView()
                             }
                         }
                     }
@@ -185,11 +200,11 @@ fun MenuScreen(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp)
+                .bringIntoViewRequester(bringIntoViewRequesterGames)
                 .onFocusChanged { focusState ->
                     if (focusState.isFocused) {
                         coroutineScope.launch {
-                            delay(150)
-                            scrollState.animateScrollTo(scrollState.maxValue)
+                            bringIntoViewRequesterGames.bringIntoView()
                         }
                     }
                 }
